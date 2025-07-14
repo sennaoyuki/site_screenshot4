@@ -1,0 +1,51 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'data/**'
+      - 'build.js'
+      - 'package.json'
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Check CSV files
+      run: |
+        echo "Checking CSV files..."
+        ls -la data/
+        
+    - name: Build project
+      run: npm run build
+      
+    - name: Check generated files
+      run: |
+        echo "Generated files:"
+        ls -la *.js | grep generated || echo "No generated files found"
+        
+    - name: Commit and push if changed
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add clinic-database-generated.js region-config-generated.js
+        git diff --staged --quiet || git commit -m "🤖 Auto-generate JS files from CSV data"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
