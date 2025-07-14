@@ -226,6 +226,7 @@ const REGION_CONFIG_ENHANCED = {
     },
 
     // 地域選択UIを作成（拡張版）
+    /*
     createRegionSelector: function() {
         const selector = document.createElement('div');
         selector.innerHTML = `
@@ -280,7 +281,7 @@ const REGION_CONFIG_ENHANCED = {
         if (currentDisplay) {
             currentDisplay.textContent = this.getCurrentRegionData().name;
         }
-    },
+    },*/
 
     // 初期化
     init: function() {
