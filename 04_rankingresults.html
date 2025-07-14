@@ -276,13 +276,13 @@
 <body>
     <div class="ranking-container">
         <div class="ranking-header">
-            <h2>【医師監修】信頼できる医療脱毛クリニック総合ランキング</h2>
+            <h2>【医師監修】<span data-region="name">千葉</span>で信頼できる医療脱毛クリニック総合ランキング</h2>
         </div>
 
         <!-- 第1位：湘南美容クリニック -->
         <div class="ranking-card">
             <div class="ranking-badge">🏆 第1位 最もおすすめ</div>
-            <div class="clinic-name">湘南美容クリニック（医療脱毛）</div>
+            <div class="clinic-name">湘南美容クリニック <span data-region="name">千葉</span>院（医療脱毛）</div>
             <div class="card-content">
                 <div class="clinic-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 375 200\"><rect width=\"375\" height=\"200\" fill=\"%23e74c3c\"/><text x=\"50%\" y=\"40%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"16\">湘南美容クリニック</text><text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"12\">医療脱毛専門</text></svg>')">
                     <div class="price-overlay">
@@ -348,7 +348,7 @@
         <!-- 第2位：リゼクリニック -->
         <div class="ranking-card">
             <div class="ranking-badge">🥈 第2位</div>
-            <div class="clinic-name">リゼクリニック</div>
+            <div class="clinic-name">リゼクリニック <span data-region="name">千葉</span>院</div>
             <div class="card-content">
                 <div class="clinic-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 375 200\"><rect width=\"375\" height=\"200\" fill=\"%23333\"/><text x=\"50%\" y=\"40%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"16\">リゼクリニック</text><text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"12\">医療脱毛</text></svg>')">
                     <div class="price-overlay">
@@ -406,7 +406,7 @@
         <!-- 第3位：エミナルクリニック -->
         <div class="ranking-card">
             <div class="ranking-badge">🥉 第3位</div>
-            <div class="clinic-name">エミナルクリニック</div>
+            <div class="clinic-name">エミナルクリニック <span data-region="name">千葉</span>院</div>
             <div class="card-content">
                 <div class="clinic-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 375 200\"><rect width=\"375\" height=\"200\" fill=\"%23333\"/><text x=\"50%\" y=\"40%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"16\">エミナルクリニック</text><text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"12\">医療脱毛</text></svg>')">
                     <div class="price-overlay">
@@ -462,7 +462,54 @@
         </div>
     </div>
 
+    <!-- 地域設定ファイル読み込み -->
+    <script src="region-config-enhanced.js"></script>
+    <script src="region-handler-enhanced.js"></script>
+    <script src="clinic-database.js"></script>
+    
     <script>
+        // 地域名の動的置換処理
+        function initializeRegionData() {
+            // URLパラメータから地域IDを取得
+            const regionId = REGION_CONFIG_ENHANCED.getRegionIdFromUrl() || REGION_CONFIG_ENHANCED.defaultRegionId;
+            const regionName = REGION_CONFIG_ENHANCED.getRegionNameById(regionId);
+            
+            console.log('地域データ初期化:', regionId, regionName);
+            
+            // 地域名を表示
+            const regionNameElement = document.querySelector('[data-region="name"]');
+            if (regionNameElement) {
+                regionNameElement.textContent = regionName;
+            }
+            
+            // 地域データを取得してクリニック情報を更新
+            const regionData = REGION_CONFIG_ENHANCED.getRegionDataById(regionId);
+            if (regionData && regionData.clinics) {
+                updateClinicData(regionData.clinics);
+            }
+        }
+        
+        // クリニックデータを更新
+        function updateClinicData(clinics) {
+            const clinicCards = document.querySelectorAll('.ranking-card');
+            clinics.forEach((clinic, index) => {
+                if (index < clinicCards.length) {
+                    const card = clinicCards[index];
+                    const nameElement = card.querySelector('.clinic-name');
+                    if (nameElement && clinic.name) {
+                        nameElement.textContent = clinic.name;
+                    }
+                    
+                    // 料金情報を更新
+                    const priceElement = card.querySelector('.price-large');
+                    if (priceElement && clinic.price) {
+                        priceElement.textContent = clinic.price;
+                    }
+                }
+            });
+        }
+        
+        // ボタンアニメーション
         document.querySelectorAll('.btn-details, .btn-official').forEach(button => {
             button.addEventListener('click', function() {
                 this.style.transform = 'scale(0.98)';
@@ -470,6 +517,11 @@
                     this.style.transform = 'scale(1)';
                 }, 150);
             });
+        });
+        
+        // 初期化処理
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRegionData();
         });
     </script>
 </body>
