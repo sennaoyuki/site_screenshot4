@@ -271,6 +271,18 @@
                 padding: 16px 12px;
             }
         }
+        
+        /* 地域選択UIを非表示 */
+        .region-selector,
+        .area-selector,
+        .location-selector,
+        [class*="region-select"],
+        [class*="area-select"],
+        [class*="location-select"],
+        .region-dropdown,
+        .area-dropdown {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -542,6 +554,13 @@
             // 少し遅延させてJavaScriptファイルの読み込みを待つ
             setTimeout(() => {
                 initializeRegionData();
+                
+                // 地域選択UIを強制的に削除
+                const regionSelectors = document.querySelectorAll('.region-selector, .area-selector, .location-selector, [class*="region-select"], [class*="area-select"], [class*="location-select"], .region-dropdown, .area-dropdown');
+                regionSelectors.forEach(element => {
+                    element.remove();
+                    console.log('地域選択UIを削除しました:', element);
+                });
             }, 100);
         });
         
