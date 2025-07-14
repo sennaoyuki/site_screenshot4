@@ -470,23 +470,41 @@
     <script>
         // 地域名の動的置換処理
         function initializeRegionData() {
+            console.log('=== 地域データ初期化開始 ===');
+            
+            // REGION_CONFIG_ENHANCEDの存在確認
+            if (typeof REGION_CONFIG_ENHANCED === 'undefined') {
+                console.error('REGION_CONFIG_ENHANCEDが読み込まれていません');
+                return;
+            }
+            
             // URLパラメータから地域IDを取得
             const regionId = REGION_CONFIG_ENHANCED.getRegionIdFromUrl() || REGION_CONFIG_ENHANCED.defaultRegionId;
             const regionName = REGION_CONFIG_ENHANCED.getRegionNameById(regionId);
             
-            console.log('地域データ初期化:', regionId, regionName);
+            console.log('取得した地域ID:', regionId);
+            console.log('取得した地域名:', regionName);
+            console.log('現在のURL:', window.location.href);
             
-            // 地域名を表示
-            const regionNameElement = document.querySelector('[data-region="name"]');
-            if (regionNameElement) {
-                regionNameElement.textContent = regionName;
-            }
+            // 地域名を表示（全ての要素を更新）
+            const regionNameElements = document.querySelectorAll('[data-region="name"]');
+            console.log('地域名要素の数:', regionNameElements.length);
+            
+            regionNameElements.forEach((element, index) => {
+                console.log(`地域名要素${index}を更新: ${element.textContent} → ${regionName}`);
+                element.textContent = regionName;
+            });
             
             // 地域データを取得してクリニック情報を更新
             const regionData = REGION_CONFIG_ENHANCED.getRegionDataById(regionId);
             if (regionData && regionData.clinics) {
+                console.log('クリニックデータを更新:', regionData.clinics.length, '件');
                 updateClinicData(regionData.clinics);
+            } else {
+                console.log('クリニックデータが見つかりません');
             }
+            
+            console.log('=== 地域データ初期化完了 ===');
         }
         
         // クリニックデータを更新
@@ -521,7 +539,15 @@
         
         // 初期化処理
         document.addEventListener('DOMContentLoaded', function() {
-            initializeRegionData();
+            // 少し遅延させてJavaScriptファイルの読み込みを待つ
+            setTimeout(() => {
+                initializeRegionData();
+            }, 100);
+        });
+        
+        // 追加のエラーハンドリング
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript エラー:', e.error);
         });
     </script>
 </body>
