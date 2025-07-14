@@ -60,6 +60,26 @@
             }
         }
 
+        // URLパラメータをiframeに渡す関数
+        function passUrlParametersToIframes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const regionId = urlParams.get('region_id');
+            
+            if (regionId) {
+                console.log('URLパラメータを検出:', regionId);
+                
+                // 全てのiframeのsrcにregion_idを追加
+                const iframes = document.querySelectorAll('iframe');
+                iframes.forEach(iframe => {
+                    const currentSrc = iframe.src;
+                    const separator = currentSrc.includes('?') ? '&' : '?';
+                    const newSrc = `${currentSrc}${separator}region_id=${regionId}`;
+                    iframe.src = newSrc;
+                    console.log(`iframe src更新: ${currentSrc} → ${newSrc}`);
+                });
+            }
+        }
+
         // 3. 親ウィンドウ（ブラウザ）のサイズ変更を監視
         window.addEventListener('resize', () => {
             console.log('--- ウィンドウリサイズ検知 --- 全てのiframeの高さを再計算します ---');
@@ -69,6 +89,11 @@
                     updateIframeHeight(iframe);
                 });
             }, 300); // 0.3秒待ってから実行
+        });
+
+        // ページ読み込み時にURLパラメータをiframeに渡す
+        document.addEventListener('DOMContentLoaded', function() {
+            passUrlParametersToIframes();
         });
     </script>
 </head>
