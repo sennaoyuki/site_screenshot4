@@ -1,5 +1,5 @@
 // 自動生成された地域設定ファイル
-// このファイルは update-data.sh により自動生成されます。直接編集しないでください。
+// このファイルはビルド時に自動生成されます。直接編集しないでください。
 
 const REGION_CONFIG_GENERATED = {
     regions: {
@@ -7,35 +7,42 @@ const REGION_CONFIG_GENERATED = {
             id: '001',
             name: '北海道',
             areaText: '札幌・函館・旭川エリア対応',
-            stationInfo: 'JR札幌駅徒歩5分以内の好立地',
+            stationInfo: 'undefined',
             clinics: []
         },
         'miyagi': {
             id: '004',
             name: '宮城',
             areaText: '仙台・石巻・大崎エリア対応',
-            stationInfo: 'JR仙台駅徒歩5分以内の好立地',
+            stationInfo: 'undefined',
             clinics: []
         },
         'chiba': {
             id: '012',
             name: '千葉',
             areaText: '千葉・船橋・柏エリア対応',
-            stationInfo: 'JR千葉駅徒歩5分以内の好立地',
+            stationInfo: 'undefined',
             clinics: []
         },
         'tokyo': {
             id: '013',
             name: '東京',
             areaText: '新宿・渋谷・池袋エリア対応',
-            stationInfo: 'JR新宿駅徒歩3分以内の好立地',
+            stationInfo: 'undefined',
             clinics: []
         },
         'osaka': {
             id: '027',
             name: '大阪',
             areaText: '梅田・心斎橋・難波エリア対応',
-            stationInfo: 'JR大阪駅徒歩5分以内の好立地',
+            stationInfo: 'undefined',
+            clinics: []
+        },
+        'aichi': {
+            id: '023',
+            name: '愛知',
+            areaText: '名古屋・岡崎・豊橋エリア対応',
+            stationInfo: 'undefined',
             clinics: []
         },
     },
@@ -89,7 +96,6 @@ const REGION_CONFIG_GENERATED = {
         const selector = document.createElement('div');
         let optionsHTML = '';
         
-        // 動的にオプションを生成
         for (const [key, region] of Object.entries(this.regions)) {
             optionsHTML += `<option value="${key}">${region.name}エリア</option>`;
         }

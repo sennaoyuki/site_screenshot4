@@ -11,8 +11,7 @@
   "keywords": ["clinic", "medical", "website"],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
