@@ -294,7 +294,7 @@ const REGION_CONFIG_ENHANCED = {
         this.updatePageMeta();
         
         // 地域切り替えUIを作成
-        this.createRegionSelector();
+        // this.createRegionSelector();
         
         // 初期データで全コンポーネントを更新
         setTimeout(() => {
