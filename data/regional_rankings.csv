@@ -1,7 +1,7 @@
 region_id,rank1_location,rank2_location,rank3_location
 001,regina_001,rize_001,eminal_001
 004,tcb_004,rize_004,eminal_004
-012,sbc_012,tcb_012,eminal_012
+012,tcb_012,sbc_012,eminal_012
 013,regina_013,alicia_013,sbc_013
 027,regina_027,rize_027,eminal_027
 023,regina_023,rize_023,eminal_023

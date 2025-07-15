@@ -95,22 +95,6 @@ const CLINIC_DATABASE_GENERATED = {
         clinics: [
             {
                 rank: 1,
-                name: '湘南美容クリニック 千葉センシティ院',
-                rating: '★★★★★ (4.6)',
-                address: '千葉県千葉市中央区新町1000番地 センシティビルディング9階',
-                access: 'JR千葉駅東口徒歩1分',
-                campaign: '両ワキ脱毛6回 2500円',
-                price: '月々3000円',
-                features: [
-                    '駅直結で通いやすい',
-                    '豊富な症例実績',
-                    'undefined'
-                ],
-                url: 'undefined',
-                phone: '0120-955-559'
-            },
-            {
-                rank: 2,
                 name: 'TCB東京中央美容外科 千葉院',
                 rating: '★★★★★ (4.5)',
                 address: '千葉県千葉市中央区新町1-17-2 MF10ビル6F',
@@ -124,6 +108,22 @@ const CLINIC_DATABASE_GENERATED = {
                 ],
                 url: 'undefined',
                 phone: '043-310-7577'
+            },
+            {
+                rank: 2,
+                name: '湘南美容クリニック 千葉センシティ院',
+                rating: '★★★★★ (4.6)',
+                address: '千葉県千葉市中央区新町1000番地 センシティビルディング9階',
+                access: 'JR千葉駅東口徒歩1分',
+                campaign: '両ワキ脱毛6回 2500円',
+                price: '月々3000円',
+                features: [
+                    '駅直結で通いやすい',
+                    '豊富な症例実績',
+                    'undefined'
+                ],
+                url: 'undefined',
+                phone: '0120-955-559'
             },
         ]
     },
