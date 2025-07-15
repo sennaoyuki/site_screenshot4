@@ -100,67 +100,75 @@
         });
 
         // postMessage APIを使ったiframe間通信のハンドラー
-        function handleIframeMessage(event) {
-            // セキュリティチェック: 同一オリジンからのメッセージのみ受け付け
-            // ローカル環境での動作も考慮
-            const allowedOrigins = [
-                window.location.origin,
-                'null', // ローカルファイル（file://）プロトコル用
-                'file://'
-            ];
-            
-            if (!allowedOrigins.includes(event.origin) && !event.origin.startsWith('file://')) {
-                console.warn('Rejected message from different origin:', event.origin);
-                return;
-            }
+function handleIframeMessage(event) {
 
-            console.log('Received message from iframe:', event.data);
+    const myOrigin = window.location.origin; // 親ページ自身のオリジンを取得
 
-            // メッセージの構造チェック
-            if (!event.data || typeof event.data !== 'object') {
-                console.warn('Invalid message format:', event.data);
-                return;
-            }
+    // メッセージを許可するオリジン（ドメイン）かを判定します
+    const isAllowedOrigin =
+        // 条件1: 送信元(event.origin)が、このページ(myOrigin)と完全に一致する場合 (例: 本番URL)
+        event.origin === myOrigin ||
+        // 条件2: Vercelのプレビューデプロイ環境を考慮し、両方のドメインが '.vercel.app' で終わる場合
+        (myOrigin.includes('.vercel.app') && event.origin.endsWith('.vercel.app')) ||
+        // 条件3: ローカルファイルとして開いている場合 (オリジンが 'null' または 'file://' になる)
+        event.origin === 'null' || event.origin.startsWith('file://');
 
-            // ナビゲーション要求の処理
-            if (event.data.type === 'navigate') {
-                const targetUrl = event.data.url;
-                const linkText = event.data.linkText || 'Unknown';
-                
-                // URLの検証
-                if (targetUrl && typeof targetUrl === 'string') {
-                    console.log(`Navigating to: ${targetUrl} (from link: ${linkText})`);
-                    
-                    // メールリンクの場合はそのまま処理
-                    if (targetUrl.startsWith('mailto:')) {
-                        window.location.href = targetUrl;
-                    }
-                    // HTMLファイルまたは相対パスの場合
-                    else if (targetUrl.endsWith('.html') || targetUrl === 'index.html' || 
-                             (!targetUrl.includes('://') && !targetUrl.startsWith('javascript:'))) {
-                        // XSS対策: javascript:プロトコルを拒否
-                        window.location.href = targetUrl;
-                    }
-                    // 外部リンクの場合は新しいタブで開く
-                    else if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
-                        window.open(targetUrl, '_blank', 'noopener,noreferrer');
-                    }
-                    else {
-                        console.warn('Blocked potentially unsafe URL:', targetUrl);
-                    }
-                } else {
-                    console.warn('Invalid URL in navigation request:', targetUrl);
-                }
+    // 許可されていないオリジンからのメッセージは、ここで処理を中断します
+    if (!isAllowedOrigin) {
+        console.warn(`[Security] 信頼できないオリジンからのメッセージを拒否しました: ${event.origin}`);
+        return;
+    }
+    // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    // ★★★ 修正・強化されたセキュリティチェックはここまで ★★★
+    // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+
+    console.log('Received message from iframe:', event.data);
+
+    // メッセージの構造チェック
+    if (!event.data || typeof event.data !== 'object') {
+        console.warn('Invalid message format:', event.data);
+        return;
+    }
+
+    // ナビゲーション要求の処理
+    if (event.data.type === 'navigate') {
+        const targetUrl = event.data.url;
+        const linkText = event.data.linkText || 'Unknown';
+
+        // URLの検証
+        if (targetUrl && typeof targetUrl === 'string') {
+            console.log(`Navigating to: ${targetUrl} (from link: ${linkText})`);
+
+            // メールリンクの場合はそのまま処理
+            if (targetUrl.startsWith('mailto:')) {
+                window.location.href = targetUrl;
             }
-            // リンクホバー効果の処理
-            else if (event.data.type === 'link_hover') {
-                console.log('Link hover effect from iframe:', event.data.linkText, event.data.action);
+            // HTMLファイルまたは相対パスの場合
+            else if (targetUrl.endsWith('.html') || targetUrl === 'index.html' ||
+                (!targetUrl.includes('://') && !targetUrl.startsWith('javascript:'))) {
+                // XSS対策: javascript:プロトコルを拒否
+                window.location.href = targetUrl;
             }
-            // デバッグ情報
-            else if (event.data.type === 'debug') {
-                console.log('Debug message from iframe:', event.data.message);
+            // 外部リンクの場合は新しいタブで開く
+            else if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
+                window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            } else {
+                console.warn('Blocked potentially unsafe URL:', targetUrl);
             }
+        } else {
+            console.warn('Invalid URL in navigation request:', targetUrl);
         }
+    }
+    // リンクホバー効果の処理
+    else if (event.data.type === 'link_hover') {
+        console.log('Link hover effect from iframe:', event.data.linkText, event.data.action);
+    }
+    // デバッグ情報
+    else if (event.data.type === 'debug') {
+        console.log('Debug message from iframe:', event.data.message);
+    }
+}
 
         // メッセージリスナーを登録
         window.addEventListener('message', handleIframeMessage, false);
