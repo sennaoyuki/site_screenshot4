@@ -237,20 +237,36 @@
         </div>
     </footer>
 
-    <script>
+    <!-- <script>
         // Add click animation to footer links
         document.querySelectorAll('.footer-link, .nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                const href = this.getAttribute('href');
                 
-                // Add click animation
-                this.style.opacity = '0.7';
-                setTimeout(() => {
-                    this.style.opacity = '1';
-                }, 150);
+                // デバッグ用ログ
+                console.log('Link clicked:', this.textContent.trim(), 'href:', href);
                 
-                // Log click for demonstration
-                console.log('Link clicked:', this.textContent.trim());
+                // Only prevent default for demo links (href="#") and empty links
+                if (href === '#' || href === '' || !href) {
+                    e.preventDefault();
+                    console.log('Navigation prevented for demo link');
+                    
+                    // Add click animation for demo links
+                    this.style.opacity = '0.7';
+                    setTimeout(() => {
+                        this.style.opacity = '1';
+                    }, 150);
+                } else if (href.startsWith('mailto:')) {
+                    // Allow mailto links to work normally
+                    console.log('Mailto link allowed');
+                } else {
+                    // For navigation links, add animation but don't prevent default
+                    console.log('Navigation link allowed:', href);
+                    this.style.opacity = '0.9';
+                    setTimeout(() => {
+                        this.style.opacity = '1';
+                    }, 100);
+                }
             });
         });
 
@@ -265,6 +281,6 @@
                 this.style.transform = 'translateX(0)';
             });
         });
-    </script>
+    </script> -->
 </body>
 </html>
