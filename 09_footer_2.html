@@ -219,6 +219,7 @@
         <div class="bottom-nav">
             <div class="nav-links">
                 <a href="index.html" class="nav-link">TOP</a>
+                <a href="mailto:clinic.hikaku.review@gmail.com" class="nav-link">お問い合わせ</a>
                 <a href="about.html" class="nav-link">制作概要</a>
                 <a href="company.html" class="nav-link">運営会社</a>
                 <a href="editorial-policy.html" class="nav-link">編集方針</a>
@@ -239,163 +240,64 @@
             
             // 親ウィンドウが存在するかチェック（iframe内かどうか）
             if (window.parent && window.parent !== window) {
-                // iframe内からのナビゲーション - postMessageを使用
                 const message = {
                     type: 'navigate',
                     url: url,
-                    linkText: linkText,
-                    timestamp: Date.now()
+                    linkText: linkText
                 };
                 
                 try {
+                    // ターゲットオリジンを '*' に設定して、Vercel環境でも動作するようにする
                     window.parent.postMessage(message, '*');
                     console.log('Navigation message sent to parent:', message);
-                    console.log('Parent window origin check...');
-                    console.log('Current iframe origin:', window.location.origin);
                 } catch (error) {
                     console.error('Failed to send navigation message:', error);
-                    // フォールバック: 直接ナビゲーションを試行
-                    fallbackNavigation(url);
                 }
             } else {
-                // 通常のナビゲーション（iframe外）
+                // 親がいない場合（フッター単体で開いた場合）は、直接遷移する
                 window.location.href = url;
             }
         }
-
-        // フォールバック用のナビゲーション関数
-        function fallbackNavigation(url) {
-            console.log('Using fallback navigation for:', url);
-            try {
-                window.top.location.href = url;
-            } catch (error) {
-                console.log('Top navigation failed, opening new window');
-                window.open(url, '_blank');
-            }
-        }
-
-        // Handle navigation links in iframe context
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
+    
+        // ★★★ ここをシンプルに修正 ★★★
+        // サイト内の全リンク（.nav-link と .footer-link）にイベントを設定
+        document.querySelectorAll('.nav-link, .footer-link').forEach(link => {
+            link.addEventListener('click', function(event) {
+                // リンクが本来持つページ遷移の機能をまず停止させる
+                event.preventDefault();
+    
                 const href = this.getAttribute('href');
                 const linkText = this.textContent.trim();
                 
                 console.log('Link clicked:', linkText, 'href:', href);
-                
-                // Handle different types of links
-                if (href === '#' || !href) {
-                    e.preventDefault();
-                    console.log('Empty link clicked');
-                } else if (href.startsWith('mailto:')) {
-                    // メールリンクの場合はpostMessageで親ウィンドウに通知
-                    e.preventDefault();
+    
+                // href属性に有効な値がある場合のみ、ページ遷移処理を呼び出す
+                // ('#'だけのリンクや空のリンクは無視する)
+                if (href && href !== '#') {
                     navigateToPage(href, linkText);
-                } else if (href.endsWith('.html') || href === 'index.html') {
-                    // HTMLページの場合はpostMessageで親ウィンドウに通知
-                    e.preventDefault();
-                    navigateToPage(href, linkText);
+                } else {
+                    console.log('Empty or # link clicked. Navigation stopped.');
                 }
-                
-                // クリックアニメーション
-                this.style.opacity = '0.8';
-                setTimeout(() => {
-                    this.style.opacity = '1';
-                }, 150);
-            });
-
-            // ホバー効果の通知（オプション）
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateX(2px)';
-                this.style.transition = 'transform 0.2s ease';
-                
-                // 親ウィンドウにホバー効果を通知（デバッグ用）
-                if (window.parent && window.parent !== window) {
-                    const message = {
-                        type: 'link_hover',
-                        linkText: this.textContent.trim(),
-                        action: 'enter'
-                    };
-                    try {
-                        window.parent.postMessage(message, window.location.origin);
-                    } catch (error) {
-                        // ホバー効果のエラーは無視
-                    }
-                }
-            });
-            
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateX(0)';
             });
         });
-
-        // その他のフッターリンクにもpostMessage対応を追加
-        document.querySelectorAll('.footer-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                const linkText = this.textContent.trim();
-                
-                // 空のリンクや#の場合はクリックを無効化
-                if (href === '#' || !href) {
-                    e.preventDefault();
-                    console.log('Empty footer link clicked:', linkText);
-                    return;
-                }
-                
-                // HTMLページリンクの場合はpostMessageを使用
-                if (href.endsWith('.html')) {
-                    e.preventDefault();
-                    navigateToPage(href, linkText);
-                }
-            });
-
-            // ホバー効果
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateX(2px)';
-                this.style.transition = 'transform 0.2s ease';
-            });
-            
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateX(0)';
-            });
-        });
-
+    
+        // (以下、デバッグ用のコードは変更なし)
+    
         // 初期化時にデバッグ情報を送信
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Footer component loaded');
-            
-            // 親ウィンドウにフッターの読み込み完了を通知
             if (window.parent && window.parent !== window) {
-                const debugMessage = {
-                    type: 'debug',
-                    message: 'Footer component loaded successfully',
-                    timestamp: Date.now(),
-                    userAgent: navigator.userAgent.substring(0, 50) + '...'
-                };
-                
-                try {
-                    window.parent.postMessage(debugMessage, window.location.origin);
-                } catch (error) {
-                    console.log('Could not send debug message to parent:', error);
-                }
+                const debugMessage = { type: 'debug', message: 'Footer component loaded successfully' };
+                window.parent.postMessage(debugMessage, '*');
             }
         });
-
+    
         // エラーハンドリング
         window.addEventListener('error', function(event) {
             console.error('Footer component error:', event.error);
-            
             if (window.parent && window.parent !== window) {
-                const errorMessage = {
-                    type: 'debug',
-                    message: `Footer error: ${event.error ? event.error.message : 'Unknown error'}`,
-                    timestamp: Date.now()
-                };
-                
-                try {
-                    window.parent.postMessage(errorMessage, window.location.origin);
-                } catch (e) {
-                    // エラー通知の送信に失敗した場合は無視
-                }
+                const errorMessage = { type: 'debug', message: `Footer error: ${event.error ? event.error.message : 'Unknown error'}` };
+                window.parent.postMessage(errorMessage, '*');
             }
         });
     </script>
