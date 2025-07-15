@@ -1,5 +1,5 @@
 {
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {
@@ -11,31 +11,13 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
         }
       ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/editorial-policy",
-      "destination": "/editorial-policy.html"
-    },
-    {
-      "source": "/about",
-      "destination": "/about.html"
-    },
-    {
-      "source": "/company",
-      "destination": "/company.html"
-    },
-    {
-      "source": "/privacy-policy",
-      "destination": "/privacy-policy.html"
     }
   ]
 }
