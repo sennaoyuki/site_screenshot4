@@ -11,19 +11,19 @@ const CLINIC_DATABASE_GENERATED = {
         clinics: [
             {
                 rank: 1,
-                name: 'レジーナクリニック 札幌院',
-                rating: '★★★★★ (4.8)',
-                address: '北海道札幌市中央区北1条西3-3-10 ユニゾイン札幌2階',
-                access: 'JR札幌駅南口徒歩2分',
-                campaign: '全身脱毛5回 99000円',
-                price: '月々1400円',
+                name: '湘南美容クリニック 札幌院',
+                rating: '★★★★★ (4.7)',
+                address: '北海道札幌市中央区北1条西3-3-10 ユニゾイン札幌3階',
+                access: 'JR札幌駅南口徒歩3分',
+                campaign: '両ワキ脱毛6回 2500円',
+                price: '月々3000円',
                 features: [
-                    '追加料金一切なし',
-                    '平日21時まで診療',
+                    '業界最安級の料金設定',
+                    '全国130院以上展開',
                     'undefined'
                 ],
                 url: 'undefined',
-                phone: '011-206-6600'
+                phone: '0120-031-999'
             },
             {
                 rank: 2,
