@@ -95,22 +95,6 @@ const CLINIC_DATABASE_GENERATED = {
         clinics: [
             {
                 rank: 1,
-                name: 'TCB東京中央美容外科 千葉院',
-                rating: '★★★★★ (4.5)',
-                address: '千葉県千葉市中央区新町1-17-2 MF10ビル6F',
-                access: 'JR千葉駅東口徒歩2分',
-                campaign: 'VIO脱毛5回 48000円',
-                price: '月々1700円',
-                features: [
-                    '痛みの少ない脱毛',
-                    '豊富な割引制度',
-                    '20時まで診療'
-                ],
-                url: 'https://aoki-tsuyoshi.com/',
-                phone: '043-310-7577'
-            },
-            {
-                rank: 2,
                 name: '湘南美容クリニック 千葉センシティ院',
                 rating: '★★★★★ (4.6)',
                 address: '千葉県千葉市中央区新町1000番地 センシティビルディング9階',
@@ -124,6 +108,22 @@ const CLINIC_DATABASE_GENERATED = {
                 ],
                 url: 'https://www.s-b-c.net/',
                 phone: '0120-955-559'
+            },
+            {
+                rank: 2,
+                name: 'TCB東京中央美容外科 千葉院',
+                rating: '★★★★★ (4.5)',
+                address: '千葉県千葉市中央区新町1-17-2 MF10ビル6F',
+                access: 'JR千葉駅東口徒歩2分',
+                campaign: 'VIO脱毛5回 48000円',
+                price: '月々1700円',
+                features: [
+                    '痛みの少ない脱毛',
+                    '豊富な割引制度',
+                    '20時まで診療'
+                ],
+                url: 'https://aoki-tsuyoshi.com/',
+                phone: '043-310-7577'
             },
         ]
     },

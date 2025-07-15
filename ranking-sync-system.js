@@ -159,7 +159,7 @@ class RankingSyncSystem {
 
     // 06_comparisontable.html の更新
     updateComparisonTablePage() {
-        const comparisonItems = document.querySelectorAll('.comparison-item');
+        const comparisonItems = document.querySelectorAll('.comparison-item, .clinic-row');
         if (comparisonItems.length === 0) return;
 
         console.log('📄 比較表ページを更新中...');

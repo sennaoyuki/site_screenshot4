@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【医療脱毛クリニック比較ナビ】フッター (デバッグ版)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .footer-container {
+            background-color: white;
+            max-width: 375px;
+            margin: 0 auto;
+        }
+
+        /* Footer Header */
+        .footer-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 12px 16px;
+            position: relative;
+        }
+
+        .footer-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 8px solid #c0392b;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Footer Links Section */
+        .footer-links {
+            padding: 20px 16px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-column {
+            flex: 1;
+        }
+
+        .column-links {
+            list-style: none;
+        }
+
+        .link-item {
+            margin-bottom: 12px;
+        }
+
+        .footer-link {
+            color: #e74c3c;
+            text-decoration: underline;
+            font-size: 14px;
+            line-height: 1.5;
+            display: block;
+        }
+
+        .footer-link:hover {
+            color: #c0392b;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            border-top: 1px solid #e0e0e0;
+            padding: 16px;
+            background-color: #f8f9fa;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            color: #e74c3c;
+            text-decoration: underline;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #c0392b;
+        }
+
+        /* Copyright */
+        .copyright {
+            background-color: #e74c3c;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            font-size: 12px;
+        }
+
+        /* Debug area */
+        .debug-area {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 10px;
+            max-height: 100px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer-container">
+        <!-- Debug Area -->
+        <div class="debug-area" id="debugArea">
+            <strong>デバッグログ:</strong><br>
+        </div>
+
+        <!-- Footer Header -->
+        <div class="footer-header">
+            <div class="footer-title">医療脱毛クリニックおすすめ3選</div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="footer-links">
+            <!-- Left Column -->
+            <div class="footer-column">
+                <ul class="column-links">
+                    <li class="link-item">
+                        <a href="#" class="footer-link">医療脱毛クリニックおすすめ3選</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#" class="footer-link">総合人気-医療脱毛クリニックおすすめ3選</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#" class="footer-link">全身脱毛-医療脱毛クリニックおすすめ3選</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column -->
+            <div class="footer-column">
+                <ul class="column-links">
+                    <li class="link-item">
+                        <a href="#" class="footer-link">アレキサンドライトレーザー-医療脱毛クリニックおすすめ3選</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#" class="footer-link">ダイオードレーザー-医療脱毛クリニックおすすめ3選</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">TOP</a>
+                <a href="about.html" class="nav-link">制作概要</a>
+                <a href="company.html" class="nav-link">運営会社</a>
+                <a href="editorial-policy.html" class="nav-link">編集方針</a>
+                <a href="privacy-policy.html" class="nav-link">プライバシーポリシー</a>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="copyright">
+            Copyright © 医療脱毛クリニック比較ナビ, All Rights Reserved.
+        </div>
+    </footer>
+
+<script>
+    const debugArea = document.getElementById('debugArea');
+    
+    function debugLog(message) {
+        const time = new Date().toLocaleTimeString();
+        debugArea.innerHTML += `[${time}] ${message}<br>`;
+        debugArea.scrollTop = debugArea.scrollHeight;
+        console.log(`[DEBUG] ${message}`);
+    }
+
+    function navigateToPage(url, linkText) {
+        debugLog(`🔄 Navigation attempt: ${url} (${linkText})`);
+
+        if (window.parent && window.parent !== window) {
+            debugLog('📡 Sending postMessage to parent...');
+            
+            const message = {
+                type: 'navigate',
+                url: url,
+                linkText: linkText,
+                timestamp: Date.now()
+            };
+            
+            try {
+                // すべてのオリジンを許可してテスト
+                window.parent.postMessage(message, '*');
+                debugLog(`✅ Message sent: ${JSON.stringify(message)}`);
+            } catch (error) {
+                debugLog(`❌ Error sending message: ${error.message}`);
+                // フォールバック: 直接遷移
+                debugLog('🔄 Attempting direct navigation...');
+                try {
+                    window.top.location.href = url;
+                } catch (e) {
+                    debugLog(`❌ Direct navigation failed: ${e.message}`);
+                    window.open(url, '_blank');
+                }
+            }
+        } else {
+            debugLog('🔄 Direct navigation (not in iframe)');
+            window.location.href = url;
+        }
+    }
+
+    // リンクイベント設定
+    document.querySelectorAll('.nav-link, .footer-link').forEach((link, index) => {
+        debugLog(`🔗 Setting up link ${index + 1}: ${link.textContent.trim()}`);
+        
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const href = this.getAttribute('href');
+            const linkText = this.textContent.trim();
+            
+            debugLog(`👆 Link clicked: "${linkText}" -> "${href}"`);
+            
+            if (href && href !== '#') {
+                navigateToPage(href, linkText);
+            } else {
+                debugLog('⚠️ Empty or # link - no navigation');
+            }
+        });
+    });
+
+    // 初期化完了通知
+    document.addEventListener('DOMContentLoaded', function() {
+        debugLog('✅ Footer debug component loaded');
+        
+        if (window.parent && window.parent !== window) {
+            debugLog('📡 Sending initialization message to parent...');
+            try {
+                window.parent.postMessage({
+                    type: 'debug',
+                    message: 'Footer debug component loaded successfully',
+                    timestamp: Date.now()
+                }, '*');
+            } catch (error) {
+                debugLog(`❌ Error sending init message: ${error.message}`);
+            }
+        }
+    });
+
+    // エラーハンドリング
+    window.addEventListener('error', function(event) {
+        debugLog(`❌ JavaScript Error: ${event.error ? event.error.message : 'Unknown error'}`);
+    });
+
+    debugLog('🚀 Footer debug script initialized');
+</script>
+</body>
+</html>
