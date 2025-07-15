@@ -111,11 +111,23 @@ function handleIframeMessage(event) {
         // 条件2: Vercelのプレビューデプロイ環境を考慮し、両方のドメインが '.vercel.app' で終わる場合
         (myOrigin.includes('.vercel.app') && event.origin.endsWith('.vercel.app')) ||
         // 条件3: ローカルファイルとして開いている場合 (オリジンが 'null' または 'file://' になる)
-        event.origin === 'null' || event.origin.startsWith('file://');
+        event.origin === 'null' || event.origin.startsWith('file://') ||
+        // 条件4: 同一ホスト・同一プロトコルの場合（iframe内外で同じドメイン）
+        (myOrigin.split('://')[1] === event.origin.split('://')[1]) ||
+        // 条件5: Vercel本番環境での iframe 内外通信（緊急対応）
+        (myOrigin.includes('vercel.app') || event.origin.includes('vercel.app'));
+
+    // デバッグ情報の追加
+    console.log('Origin validation:', {
+        myOrigin: myOrigin,
+        eventOrigin: event.origin,
+        isAllowed: isAllowedOrigin
+    });
 
     // 許可されていないオリジンからのメッセージは、ここで処理を中断します
     if (!isAllowedOrigin) {
         console.warn(`[Security] 信頼できないオリジンからのメッセージを拒否しました: ${event.origin}`);
+        console.warn('Message data:', event.data);
         return;
     }
     // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

@@ -248,8 +248,10 @@
                 };
                 
                 try {
-                    window.parent.postMessage(message, window.location.origin);
+                    window.parent.postMessage(message, '*');
                     console.log('Navigation message sent to parent:', message);
+                    console.log('Parent window origin check...');
+                    console.log('Current iframe origin:', window.location.origin);
                 } catch (error) {
                     console.error('Failed to send navigation message:', error);
                     // フォールバック: 直接ナビゲーションを試行
