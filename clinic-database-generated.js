@@ -10,6 +10,22 @@ const CLINIC_DATABASE_GENERATED = {
         stationInfo: 'undefined',
         clinics: [
             {
+                rank: 1,
+                name: 'レジーナクリニック 札幌院',
+                rating: '★★★★★ (4.8)',
+                address: '北海道札幌市中央区北1条西3-3-10 ユニゾイン札幌2階',
+                access: 'JR札幌駅南口徒歩2分',
+                campaign: '全身脱毛5回 99000円',
+                price: '月々1400円',
+                features: [
+                    '追加料金一切なし',
+                    '平日21時まで診療',
+                    'undefined'
+                ],
+                url: 'undefined',
+                phone: '011-206-6600'
+            },
+            {
                 rank: 2,
                 name: 'リゼクリニック 札幌院',
                 rating: '★★★★★ (4.5)',
