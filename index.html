@@ -16,8 +16,16 @@
             vertical-align: bottom;
             background-color: #fff;
             transition: height 0.2s ease-in-out;
+            /* iframe要素のpointer-eventsを明示的に有効化 */
+            pointer-events: auto;
         }
     </style>
+    
+    <!-- 統一ランキングシステム用のスクリプト読み込み -->
+    <script src="clinic-database-generated.js"></script>
+    <script src="region-config-generated.js"></script>
+    <script src="unified-ranking-system.js"></script>
+    
     <script>
         // 全てのiframe要素を格納する配列
         const allIframes = [];
@@ -90,6 +98,72 @@
                 });
             }, 300); // 0.3秒待ってから実行
         });
+
+        // postMessage APIを使ったiframe間通信のハンドラー
+        function handleIframeMessage(event) {
+            // セキュリティチェック: 同一オリジンからのメッセージのみ受け付け
+            // ローカル環境での動作も考慮
+            const allowedOrigins = [
+                window.location.origin,
+                'null', // ローカルファイル（file://）プロトコル用
+                'file://'
+            ];
+            
+            if (!allowedOrigins.includes(event.origin) && !event.origin.startsWith('file://')) {
+                console.warn('Rejected message from different origin:', event.origin);
+                return;
+            }
+
+            console.log('Received message from iframe:', event.data);
+
+            // メッセージの構造チェック
+            if (!event.data || typeof event.data !== 'object') {
+                console.warn('Invalid message format:', event.data);
+                return;
+            }
+
+            // ナビゲーション要求の処理
+            if (event.data.type === 'navigate') {
+                const targetUrl = event.data.url;
+                const linkText = event.data.linkText || 'Unknown';
+                
+                // URLの検証
+                if (targetUrl && typeof targetUrl === 'string') {
+                    console.log(`Navigating to: ${targetUrl} (from link: ${linkText})`);
+                    
+                    // メールリンクの場合はそのまま処理
+                    if (targetUrl.startsWith('mailto:')) {
+                        window.location.href = targetUrl;
+                    }
+                    // HTMLファイルまたは相対パスの場合
+                    else if (targetUrl.endsWith('.html') || targetUrl === 'index.html' || 
+                             (!targetUrl.includes('://') && !targetUrl.startsWith('javascript:'))) {
+                        // XSS対策: javascript:プロトコルを拒否
+                        window.location.href = targetUrl;
+                    }
+                    // 外部リンクの場合は新しいタブで開く
+                    else if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://')) {
+                        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                    }
+                    else {
+                        console.warn('Blocked potentially unsafe URL:', targetUrl);
+                    }
+                } else {
+                    console.warn('Invalid URL in navigation request:', targetUrl);
+                }
+            }
+            // リンクホバー効果の処理
+            else if (event.data.type === 'link_hover') {
+                console.log('Link hover effect from iframe:', event.data.linkText, event.data.action);
+            }
+            // デバッグ情報
+            else if (event.data.type === 'debug') {
+                console.log('Debug message from iframe:', event.data.message);
+            }
+        }
+
+        // メッセージリスナーを登録
+        window.addEventListener('message', handleIframeMessage, false);
 
         // ページ読み込み時にURLパラメータをiframeに渡す
         document.addEventListener('DOMContentLoaded', function() {
