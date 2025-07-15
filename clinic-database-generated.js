@@ -1,5 +1,5 @@
 // 自動生成されたクリニックデータベース
-// このファイルはビルド時に自動生成されます。直接編集しないでください。
+// このファイルは update-data.sh により自動生成されます。直接編集しないでください。
 
 const CLINIC_DATABASE_GENERATED = {
     // 北海道 - region_id: 001
@@ -7,7 +7,7 @@ const CLINIC_DATABASE_GENERATED = {
         id: '001',
         name: '北海道',
         areaText: '札幌・函館・旭川エリア対応',
-        stationInfo: 'undefined',
+        stationInfo: 'JR札幌駅徒歩5分以内の好立地',
         clinics: [
             {
                 rank: 1,
@@ -20,9 +20,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '業界最安級の料金設定',
                     '全国130院以上展開',
-                    'undefined'
+                    '経験豊富な医師による施術'
                 ],
-                url: 'undefined',
+                url: 'https://www.s-b-c.net/',
                 phone: '0120-031-999'
             },
             {
@@ -36,9 +36,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '3種類の医療レーザー脱毛機',
                     '追加料金一切なし',
-                    'undefined'
+                    '硬毛化・増毛化保証あり'
                 ],
-                url: 'undefined',
+                url: 'https://www.rizeclinic.com/',
                 phone: '0120-966-120'
             },
         ]
@@ -49,7 +49,7 @@ const CLINIC_DATABASE_GENERATED = {
         id: '004',
         name: '宮城',
         areaText: '仙台・石巻・大崎エリア対応',
-        stationInfo: 'undefined',
+        stationInfo: 'JR仙台駅徒歩5分以内の好立地',
         clinics: [
             {
                 rank: 1,
@@ -62,9 +62,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '痛みの少ない脱毛機導入',
                     '全国55院展開の安心感',
-                    'undefined'
+                    '夜20時まで診療で通いやすい'
                 ],
-                url: 'undefined',
+                url: 'https://aoki-tsuyoshi.com/',
                 phone: '022-796-1530'
             },
             {
@@ -78,9 +78,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '医療レーザー脱毛専門',
                     '3種類の脱毛機完備',
-                    'undefined'
+                    '硬毛化保証付き'
                 ],
-                url: 'undefined',
+                url: 'https://www.rizeclinic.com/',
                 phone: '0120-966-120'
             },
         ]
@@ -91,7 +91,7 @@ const CLINIC_DATABASE_GENERATED = {
         id: '012',
         name: '千葉',
         areaText: '千葉・船橋・柏エリア対応',
-        stationInfo: 'undefined',
+        stationInfo: 'JR千葉駅徒歩5分以内の好立地',
         clinics: [
             {
                 rank: 1,
@@ -104,9 +104,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '痛みの少ない脱毛',
                     '豊富な割引制度',
-                    'undefined'
+                    '20時まで診療'
                 ],
-                url: 'undefined',
+                url: 'https://aoki-tsuyoshi.com/',
                 phone: '043-310-7577'
             },
             {
@@ -120,9 +120,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '駅直結で通いやすい',
                     '豊富な症例実績',
-                    'undefined'
+                    '安心の全国展開'
                 ],
-                url: 'undefined',
+                url: 'https://www.s-b-c.net/',
                 phone: '0120-955-559'
             },
         ]
@@ -133,7 +133,7 @@ const CLINIC_DATABASE_GENERATED = {
         id: '013',
         name: '東京',
         areaText: '新宿・渋谷・池袋エリア対応',
-        stationInfo: 'undefined',
+        stationInfo: 'JR新宿駅徒歩3分以内の好立地',
         clinics: [
             {
                 rank: 1,
@@ -146,9 +146,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '追加料金一切なし',
                     '平日21時まで診療',
-                    'undefined'
+                    '完全個室でプライバシー配慮'
                 ],
-                url: 'undefined',
+                url: 'https://reginaclinic.jp/',
                 phone: '03-6304-5867'
             },
             {
@@ -162,9 +162,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '初回契約時に4回分予約可能',
                     '当日キャンセル無料',
-                    'undefined'
+                    '最短4ヶ月で完了'
                 ],
-                url: 'undefined',
+                url: 'https://www.aletheia-clinic.com/',
                 phone: '0120-225-677'
             },
         ]
@@ -175,7 +175,7 @@ const CLINIC_DATABASE_GENERATED = {
         id: '027',
         name: '大阪',
         areaText: '梅田・心斎橋・難波エリア対応',
-        stationInfo: 'undefined',
+        stationInfo: 'JR大阪駅徒歩5分以内の好立地',
         clinics: [
             {
                 rank: 1,
@@ -188,9 +188,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '追加料金なしの安心システム',
                     '平日21時まで診療',
-                    'undefined'
+                    '完全個室制'
                 ],
-                url: 'undefined',
+                url: 'https://reginaclinic.jp/',
                 phone: '06-6147-7590'
             },
             {
@@ -204,51 +204,9 @@ const CLINIC_DATABASE_GENERATED = {
                 features: [
                     '医療レーザー脱毛専門',
                     '3種類の脱毛機',
-                    'undefined'
+                    'コース終了後半額以下'
                 ],
-                url: 'undefined',
-                phone: '0120-966-120'
-            },
-        ]
-    },
-
-    // 愛知 - region_id: 023
-    '023': {
-        id: '023',
-        name: '愛知',
-        areaText: '名古屋・岡崎・豊橋エリア対応',
-        stationInfo: 'undefined',
-        clinics: [
-            {
-                rank: 1,
-                name: 'レジーナクリニック 名古屋院',
-                rating: '★★★★★ (4.6)',
-                address: '愛知県名古屋市中村区名駅2-45-19 桑山ビル5階',
-                access: 'JR名古屋駅桜通口徒歩5分',
-                campaign: '全身脱毛5回 99000円',
-                price: '月々1400円',
-                features: [
-                    '追加料金完全無料',
-                    '平日21時まで診療',
-                    'undefined'
-                ],
-                url: 'undefined',
-                phone: '052-551-4650'
-            },
-            {
-                rank: 2,
-                name: 'リゼクリニック 名古屋栄院',
-                rating: '★★★★★ (4.4)',
-                address: '愛知県名古屋市中区栄3-17-15 エフエックスビル9F',
-                access: '地下鉄栄駅8番出口徒歩3分',
-                campaign: '全身脱毛5回 192000円',
-                price: '月々3700円',
-                features: [
-                    '医療レーザー脱毛専門院',
-                    '3種類の脱毛機完備',
-                    'undefined'
-                ],
-                url: 'undefined',
+                url: 'https://www.rizeclinic.com/',
                 phone: '0120-966-120'
             },
         ]
