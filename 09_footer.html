@@ -237,36 +237,52 @@
         </div>
     </footer>
 
-    <!-- <script>
-        // Add click animation to footer links
-        document.querySelectorAll('.footer-link, .nav-link').forEach(link => {
+    <script>
+        // Handle navigation links in iframe context
+        document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 
-                // デバッグ用ログ
                 console.log('Link clicked:', this.textContent.trim(), 'href:', href);
                 
-                // Only prevent default for demo links (href="#") and empty links
-                if (href === '#' || href === '' || !href) {
+                // Handle different types of links
+                if (href === '#' || !href) {
                     e.preventDefault();
-                    console.log('Navigation prevented for demo link');
-                    
-                    // Add click animation for demo links
-                    this.style.opacity = '0.7';
-                    setTimeout(() => {
-                        this.style.opacity = '1';
-                    }, 150);
+                    console.log('Empty link clicked');
                 } else if (href.startsWith('mailto:')) {
                     // Allow mailto links to work normally
-                    console.log('Mailto link allowed');
-                } else {
-                    // For navigation links, add animation but don't prevent default
-                    console.log('Navigation link allowed:', href);
-                    this.style.opacity = '0.9';
-                    setTimeout(() => {
-                        this.style.opacity = '1';
-                    }, 100);
+                    console.log('Mailto link - allowing default behavior');
+                    return true;
+                } else if (href.endsWith('.html') || href === 'index.html') {
+                    // For HTML page links, navigate parent window
+                    e.preventDefault();
+                    console.log('Navigating parent window to:', href);
+                    
+                    // Try multiple methods to navigate parent window
+                    if (window.parent && window.parent !== window) {
+                        // We're in an iframe
+                        try {
+                            window.parent.location.href = href;
+                        } catch (error) {
+                            console.log('Parent navigation failed, trying window.top');
+                            try {
+                                window.top.location.href = href;
+                            } catch (error2) {
+                                console.log('Top navigation failed, opening new window');
+                                window.open(href, '_parent');
+                            }
+                        }
+                    } else {
+                        // Not in iframe, navigate normally
+                        window.location.href = href;
+                    }
                 }
+                
+                // Add click animation
+                this.style.opacity = '0.8';
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 150);
             });
         });
 
@@ -281,6 +297,6 @@
                 this.style.transform = 'translateX(0)';
             });
         });
-    </script> -->
+    </script>
 </body>
 </html>
