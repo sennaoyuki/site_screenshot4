@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【医師監修】東京の医療脱毛クリニック比較表</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="design-system.css">
     <style>
         * {
             margin: 0;
@@ -13,67 +14,73 @@
         }
 
         body {
-            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
-            background-color: #f8f9fa;
+            font-family: var(--font-primary);
+            background-color: var(--neutral-light);
         }
 
         .comparison-container {
-            padding: 16px;
-            max-width: 375px;
+            padding: var(--space-4);
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
         }
 
         .comparison-header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            color: var(--neutral-white);
             text-align: center;
-            padding: 16px;
-            border-radius: 8px 8px 0 0;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
             position: relative;
             margin-bottom: 0;
+            box-shadow: var(--shadow-md);
         }
 
         .comparison-header::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 10px solid #c0392b;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-top: 12px solid var(--primary-red-dark);
         }
 
         .comparison-header h2 {
-            font-size: 16px;
-            font-weight: bold;
+            font-size: var(--text-xl);
+            font-weight: 700;
+            margin: 0;
         }
 
         .tabs-container {
-            background-color: white;
-            border-radius: 0 0 8px 8px;
+            background-color: var(--neutral-white);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
             overflow: hidden;
+            box-shadow: var(--shadow-md);
         }
 
         .tab-navigation {
             display: flex;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 2px solid var(--neutral-medium);
+            background-color: var(--neutral-light);
         }
 
         .tab-btn {
             flex: 1;
-            padding: 12px 8px;
-            background-color: #f8f9fa;
+            padding: var(--space-4) var(--space-3);
+            background-color: var(--neutral-light);
             border: none;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: var(--text-sm);
+            font-family: var(--font-primary);
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #666;
-            border-right: 1px solid #e0e0e0;
+            transition: all var(--transition-base);
+            color: var(--neutral-text-light);
+            border-right: 1px solid var(--neutral-medium);
+            min-height: 48px;
         }
 
         .tab-btn:last-child {
@@ -81,12 +88,15 @@
         }
 
         .tab-btn.active {
-            background-color: #e74c3c;
-            color: white;
+            background-color: var(--primary-red);
+            color: var(--neutral-white);
+            box-shadow: inset 0 -3px 0 var(--primary-red-dark);
         }
 
         .tab-btn:hover:not(.active) {
-            background-color: #e9ecef;
+            background-color: var(--neutral-medium);
+            color: var(--primary-red);
+            transform: translateY(-1px);
         }
 
         .tab-content {
@@ -100,19 +110,24 @@
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
+            background-color: var(--neutral-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .table-header {
-            background-color: #2c3e50;
-            color: white;
+            background-color: var(--neutral-dark);
+            color: var(--neutral-white);
         }
 
         .table-header th {
-            padding: 8px 4px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: var(--space-3) var(--space-2);
+            font-size: var(--text-xs);
+            font-weight: 700;
             text-align: center;
-            border-right: 1px solid #34495e;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: var(--font-primary);
         }
 
         .table-header th:last-child {
@@ -120,15 +135,26 @@
         }
 
         .clinic-row {
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--neutral-medium);
+            transition: all var(--transition-base);
+        }
+        
+        .clinic-row:hover {
+            background-color: var(--neutral-light);
         }
 
         .clinic-cell {
-            padding: 12px 8px;
+            padding: var(--space-4) var(--space-3);
             text-align: center;
             vertical-align: middle;
-            border-right: 1px solid #e0e0e0;
+            border-right: 1px solid var(--neutral-medium);
             position: relative;
+            transition: all var(--transition-fast);
+        }
+        
+        .clinic-cell:hover {
+            background-color: var(--primary-red-light);
+            color: var(--neutral-white);
         }
 
         .clinic-cell:last-child {
@@ -136,55 +162,81 @@
         }
 
         .clinic-name {
-            font-size: 11px;
-            color: #333;
-            margin-bottom: 4px;
+            font-size: var(--text-xs);
+            color: var(--neutral-text);
+            margin-bottom: var(--space-1);
+            font-weight: 600;
         }
 
         .clinic-logo {
-            width: 30px;
-            height: 20px;
-            background-color: #333;
-            margin: 0 auto 4px;
-            border-radius: 2px;
+            width: 36px;
+            height: 24px;
+            background-color: var(--neutral-dark);
+            margin: 0 auto var(--space-1);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8px;
-            color: white;
+            font-size: var(--text-xs);
+            color: var(--neutral-white);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .clinic-logo:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
         }
 
         .recommended-badge {
             position: absolute;
-            top: -8px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #ffd700;
-            color: #333;
-            font-size: 8px;
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-weight: bold;
+            background-color: var(--secondary-gold);
+            color: var(--neutral-dark);
+            font-size: var(--text-xs);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            box-shadow: var(--shadow-sm);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-3px); }
         }
 
         .feature-icon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            margin: 0 auto 4px;
+            margin: 0 auto var(--space-1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            color: white;
+            font-size: var(--text-sm);
+            color: var(--neutral-white);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .feature-icon:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
         }
 
         .icon-red {
-            background-color: #e74c3c;
+            background-color: var(--primary-red);
         }
 
         .icon-yellow {
-            background-color: #f39c12;
+            background-color: var(--warning-orange);
+        }
+        
+        .icon-green {
+            background-color: var(--success-green);
         }
 
         .icon-green {
@@ -291,230 +343,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="recommended-badge">おすすめ！</div>
-                                <div class="clinic-logo">湘</div>
-                                <div class="clinic-name">湘南美容クリニック</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="price-text">99,000円<br>全身脱毛5回</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">脱毛効果95%以上</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-text">全国22院展開<br>女性専門クリニック</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">T</div>
-                                <div class="clinic-name">TCB東京中央美容外科</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="price-text">173,800円<br>全身脱毛5回</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-good"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">高い脱毛効果</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-text">全国18院展開<br>痛みが少ない</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">エ</div>
-                                <div class="clinic-name">エミナルクリニック</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-yellow"><i class="fas fa-circle"></i></div>
-                                <div class="price-text">68,200円<br>全身脱毛5回</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-good"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">高い</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-text">全国60院展開<br>最短5ヶ月完了</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Tab Content 2: 治療内容 -->
-            <div class="tab-content" id="tab-1">
-                <table class="comparison-table">
-                    <thead class="table-header">
-                        <tr>
-                            <th>クリニック</th>
-                            <th>脱毛機器</th>
-                            <th>対応部位</th>
-                            <th>詳細</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="recommended-badge">おすすめ！</div>
-                                <div class="clinic-logo">T</div>
-                                <div class="clinic-name">TCB東京中央美容外科</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">アレキサンドライト<br>蓄熱式ダイオード</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">全身・顔・VIO<br>パーツ別対応</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">T</div>
-                                <div class="clinic-name">TCB東京中央美容外科</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">蓄熱式ダイオード<br>メディオスター</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-good"><i class="fas fa-triangle"></i></div>
-                                <div class="feature-text">全身・顔・VIO<br>細かい部位対応</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">エ</div>
-                                <div class="clinic-name">エミナルクリニック</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">クリスタルプロ<br>蓄熱式ダイオード</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">全身・顔・VIO<br>短期間で完了</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Tab Content 3: 実績 -->
-            <div class="tab-content" id="tab-2">
-                <table class="comparison-table">
-                    <thead class="table-header">
-                        <tr>
-                            <th>クリニック</th>
-                            <th>店舗数</th>
-                            <th>脱毛実績</th>
-                            <th>詳細</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="recommended-badge">おすすめ！</div>
-                                <div class="clinic-logo">T</div>
-                                <div class="clinic-name">TCB東京中央美容外科</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">22店舗<br><a href="#" style="color: #e74c3c; text-decoration: underline;">店舗一覧</a></div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">15万人の脱毛実績</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">T</div>
-                                <div class="clinic-name">TCB東京中央美容外科</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">18店舗<br><a href="#" style="color: #e74c3c; text-decoration: underline;">店舗一覧</a></div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-yellow"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">12万人の脱毛実績</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="clinic-row">
-                            <td class="clinic-cell">
-                                <div class="clinic-logo">エ</div>
-                                <div class="clinic-name">エミナルクリニック</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-yellow"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">60店舗<br><a href="#" style="color: #e74c3c; text-decoration: underline;">店舗一覧</a></div>
-                            </td>
-                            <td class="clinic-cell">
-                                <div class="feature-icon icon-yellow"><i class="fas fa-circle"></i></div>
-                                <div class="feature-text">20万人の脱毛実績</div>
-                            </td>
-                            <td class="clinic-cell">
-                                <button class="official-btn">
-                                    公式サイト
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

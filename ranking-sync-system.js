@@ -15,8 +15,8 @@ class RankingSyncSystem {
         // 依存関係の確認
         await this.waitForDependencies();
         
-        // 初期データの読み込み
-        this.loadInitialData();
+        // 初期データの読み込み (URLパラメータのregion_idを優先)
+        this.loadInitialDataFromUrlOrDefault();
         
         this.isInitialized = true;
         console.log('✅ 統一ランキング同期システムが準備完了');
@@ -49,13 +49,25 @@ class RankingSyncSystem {
         });
     }
 
-    // 初期データの読み込み
-    loadInitialData() {
-        if (window.CLINIC_DATABASE_GENERATED && window.CLINIC_DATABASE_GENERATED[this.defaultRegionId]) {
-            this.currentRegionData = window.CLINIC_DATABASE_GENERATED[this.defaultRegionId];
-            console.log(`📊 初期データ読み込み完了: ${this.currentRegionData.name}`);
+    // 初期データの読み込み (URLパラメータのregion_idを優先)
+    loadInitialDataFromUrlOrDefault() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const regionIdFromUrl = urlParams.get('region_id');
+
+        let targetRegionId = this.defaultRegionId;
+
+        if (regionIdFromUrl && window.CLINIC_DATABASE_GENERATED[regionIdFromUrl]) {
+            targetRegionId = regionIdFromUrl;
+            console.log(`📊 URLパラメータから地域IDを検出: ${targetRegionId}`);
+        } else if (regionIdFromUrl) {
+            console.warn(`⚠️ URLパラメータの地域ID ${regionIdFromUrl} は無効です。デフォルト地域を使用します。`);
+        }
+
+        if (window.CLINIC_DATABASE_GENERATED && window.CLINIC_DATABASE_GENERATED[targetRegionId]) {
+            this.currentRegionData = window.CLINIC_DATABASE_GENERATED[targetRegionId];
+            console.log(`📊 初期データ読み込み完了: ${this.currentRegionData.name} (ID: ${targetRegionId})`);
         } else {
-            console.warn('⚠️ 初期データの読み込みに失敗しました');
+            console.warn('⚠️ 初期データの読み込みに失敗しました。データベースまたはデフォルト地域IDを確認してください。');
         }
     }
 
@@ -159,83 +171,220 @@ class RankingSyncSystem {
 
     // 06_comparisontable.html の更新
     updateComparisonTablePage() {
-        const comparisonItems = document.querySelectorAll('.comparison-item, .clinic-row');
-        if (comparisonItems.length === 0) return;
+        const comparisonTableBody = document.querySelector('.comparison-table tbody');
+        if (!comparisonTableBody) return;
 
         console.log('📄 比較表ページを更新中...');
 
-        comparisonItems.forEach((item, index) => {
-            const clinic = this.currentRegionData.clinics[index];
-            if (!clinic) return;
+        // 既存の行をクリア
+        comparisonTableBody.innerHTML = '';
 
-            // クリニック名の更新（複数箇所）
-            const nameElements = item.querySelectorAll('.clinic-name');
-            nameElements.forEach(nameElement => {
-                const cleanName = clinic.name.split(' ')[0]; // 最初の単語のみ取得
-                nameElement.textContent = cleanName;
-            });
+        this.currentRegionData.clinics.forEach((clinic, index) => {
+            const row = document.createElement('tr');
+            row.classList.add('clinic-row');
 
-            // 料金の更新
-            const priceElements = item.querySelectorAll('.price-value, .highlight-price');
-            priceElements.forEach(priceElement => {
-                if (clinic.price) {
-                    priceElement.textContent = clinic.price;
-                }
-            });
+            const isRecommended = index === 0; // 1位を「おすすめ」とする
 
-            // 順位表示の更新
-            const rankElements = item.querySelectorAll('.rank-number, .comparison-rank');
-            rankElements.forEach(rankElement => {
-                rankElement.textContent = `${index + 1}位`;
-            });
+            row.innerHTML = `
+                <td class="clinic-cell">
+                    ${isRecommended ? '<div class="recommended-badge">おすすめ！</div>' : ''}
+                    <div class="clinic-logo">${clinic.name.charAt(0)}</div>
+                    <div class="clinic-name">${clinic.name.split(' ')[0]}</div>
+                </td>
+                <td class="clinic-cell">
+                    <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
+                    <div class="price-text">${clinic.price}<br>${clinic.campaign ? clinic.campaign.replace('円', '') : ''}</div>
+                </td>
+                <td class="clinic-cell">
+                    <div class="feature-icon icon-red"><i class="fas fa-circle"></i></div>
+                    <div class="feature-text">脱毛効果95%以上</div>
+                </td>
+                <td class="clinic-cell">
+                    <div class="feature-text">全国${clinic.features[1] ? clinic.features[1].match(/\d+/) : ''}院展開<br>${clinic.features[2] || ''}</div>
+                </td>
+                <td class="clinic-cell">
+                    <button class="official-btn">
+                        公式サイト
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </td>
+            `;
+            comparisonTableBody.appendChild(row);
         });
+        this.setupDynamicEventListeners(); // 動的に生成された要素にイベントリスナーを設定
     }
 
     // 07_detailedcontent.html の更新
     updateDetailedContentPage() {
-        const clinicSections = document.querySelectorAll('.clinic-section');
-        if (clinicSections.length === 0) return;
-
-        console.log('📄 詳細コンテンツページを更新中...');
-
-        // 既存のセクション順序を現在のランキングに合わせて並び替え
         const container = document.querySelector('.detailed-container');
         if (!container) return;
 
-        // 新しい順序でセクションを並び替え
-        const sortedSections = [];
-        
+        console.log('📄 詳細コンテンツページを更新中...');
+
+        // 既存のセクションをクリア
+        container.innerHTML = '';
+
         this.currentRegionData.clinics.forEach((clinic, index) => {
-            const cleanName = clinic.name.split(' ')[0];
-            
-            // 対応するセクションを見つける
-            const matchingSection = Array.from(clinicSections).find(section => {
-                const header = section.querySelector('.clinic-header h2');
-                return header && header.textContent.includes(cleanName);
+            const section = document.createElement('div');
+            section.classList.add('clinic-section');
+
+            // clinic-database-generated.js のデータ構造に合わせて調整
+            const clinicName = clinic.name.split(' ')[0];
+            const clinicSubtitle = clinic.features[0] || ''; // 仮のサブタイトル
+
+            section.innerHTML = `
+                <div class="clinic-header" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+                    <h2>${clinicName}</h2>
+                    <div class="clinic-subtitle">${clinicSubtitle}</div>
+                </div>
+
+                <div class="banner-image">
+                    <div class="banner-placeholder">
+                        医療脱毛・全身脱毛
+                        <div class="price-highlight">${clinic.price}から</div>
+                    </div>
+                </div>
+
+                <div class="points-section">
+                    <div class="points-header">ここがおすすめポイント！！</div>
+                    
+                    <div class="point-item">
+                        <div class="point-title">${clinic.features[0] || 'ポイント1'}</div>
+                        <div class="point-description">
+                            ${clinic.features[1] || '説明1'}
+                        </div>
+                    </div>
+
+                    <div class="point-item">
+                        <div class="point-title">${clinic.features[2] || 'ポイント2'}</div>
+                        <div class="point-description">
+                            ${clinic.features[3] || '説明2'}
+                        </div>
+                    </div>
+
+                    <div class="point-item">
+                        <div class="point-title">${clinic.features[4] || 'ポイント3'}</div>
+                        <div class="point-description">
+                            ${clinic.features[5] || '説明3'}
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="${clinic.url}" class="consultation-btn">
+                            無料<br>カウンセリング<i class="fas fa-external-link-alt"></i><br>に進む
+                        </a>
+                        <button class="official-btn" onclick="window.open('${clinic.url}', '_blank')">
+                            公式サイトを見る<i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 基本情報テーブル (簡略化) -->
+                <div class="basic-info-section">
+                    <div class="table-header">${clinicName}の基本情報</div>
+                    <div class="tab-navigation">
+                        <button class="tab-btn active">価格</button>
+                        <button class="tab-btn">脱毛部位</button>
+                        <button class="tab-btn">通いやすさ</button>
+                        <button class="tab-btn">サービス</button>
+                    </div>
+                    <div class="info-table">
+                        <div class="table-row">
+                            <div class="table-cell">全身脱毛5回</div>
+                            <div class="table-cell price-text">${clinic.campaign || '価格情報なし'}</div>
+                        </div>
+                    </div>
+                    <button class="more-btn">もっと見る</button>
+                </div>
+
+                <!-- 脱毛機器セクション (簡略化) -->
+                <div class="equipment-section">
+                    <div class="table-header">${clinicName}の脱毛機器</div>
+                    <div class="equipment-item">
+                        <div class="equipment-number">1</div>
+                        <div class="equipment-image">脱毛機器</div>
+                        <div class="equipment-details">
+                            <div class="equipment-name">機器名</div>
+                            <div class="equipment-specs">
+                                <div class="spec-row">
+                                    <div class="spec-label">タイプ</div>
+                                    <div class="spec-value">タイプ情報</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店舗検索セクション (簡略化) -->
+                <div class="store-finder">
+                    <div class="table-header">近くの店舗を探す</div>
+                    <div class="region-item">
+                        <span>${clinic.address.split(' ')[0]}</span>
+                        <i class="fas fa-plus expand-icon"></i>
+                    </div>
+                </div>
+
+                <div class="promotion-banner">
+                    <div class="banner-ribbon">ご案内</div>
+                    <div class="promotion-text">
+                        【初回限定】<br>
+                        脱毛満足度98.5% <span class="price-highlight-large">${clinic.price}から</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="${clinic.url}" class="consultation-btn">
+                            無料<br>カウンセリング<i class="fas fa-external-link-alt"></i><br>に進む
+                        </a>
+                        <button class="official-btn" onclick="window.open('${clinic.url}', '_blank')">
+                            公式サイトを見る<i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(section);
+        });
+        this.setupDynamicEventListeners(); // 動的に生成された要素にイベントリスナーを設定
+    }
+
+    // 新しいメソッドを追加 (動的に生成された要素のイベントリスナー設定用)
+    setupDynamicEventListeners() {
+        // Button animations
+        document.querySelectorAll('.official-btn, .consultation-btn, .detail-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
             });
-
-            if (matchingSection) {
-                // ヘッダーを更新
-                const header = matchingSection.querySelector('.clinic-header h2');
-                if (header) {
-                    header.textContent = cleanName;
-                }
-
-                // 料金の更新
-                const priceElements = matchingSection.querySelectorAll('.price-highlight');
-                priceElements.forEach(element => {
-                    if (clinic.price) {
-                        element.textContent = clinic.price + 'から';
-                    }
-                });
-
-                sortedSections.push(matchingSection);
-            }
         });
 
-        // DOM上での順序を変更
-        sortedSections.forEach((section, index) => {
-            container.appendChild(section);
+        // Store finder accordion (simulation)
+        document.querySelectorAll('.region-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const icon = this.querySelector('.expand-icon');
+                if (icon) { // iconが存在するか確認
+                    if (icon.classList.contains('fa-plus')) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-minus');
+                    } else {
+                        icon.classList.remove('fa-minus');
+                        icon.classList.add('fa-plus');
+                    }
+                }
+            });
+        });
+
+        // Tab switching functionality for basic-info-section
+        document.querySelectorAll('.basic-info-section .tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all tabs in the same navigation
+                const navigation = this.parentElement;
+                navigation.querySelectorAll('.tab-btn').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
         });
     }
 

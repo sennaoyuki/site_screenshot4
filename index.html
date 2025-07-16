@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>コンポーネント統合ビュー (最終改善版・SP対応)</title>
+    <link rel="stylesheet" href="design-system.css">
     <style>
-        body { font-family: sans-serif; margin: 0; background-color: #f0f2f5; }
+        body { 
+            font-family: var(--font-primary); 
+            margin: 0; 
+            background-color: var(--neutral-light); 
+        }
         .component-wrapper {
-        margin: 0 auto;
-        max-width: 1200px;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
         iframe {
             width: 100%;
             border: none;
             display: block;
-            vertical-align: bottom;
-            background-color: #fff;
-            transition: height 0.2s ease-in-out;
-            /* iframe要素のpointer-eventsを明示的に有効化 */
+            background-color: var(--neutral-white);
+            transition: height var(--transition-base);
             pointer-events: auto;
         }
     </style>

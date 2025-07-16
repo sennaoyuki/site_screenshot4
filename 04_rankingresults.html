@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【医師監修】信頼できる医療脱毛クリニック総合ランキング</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="design-system.css">
     <style>
         * {
             margin: 0;
@@ -13,74 +14,93 @@
         }
 
         body {
-            font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
-            background-color: #f8f9fa;
+            font-family: var(--font-primary);
+            background-color: var(--neutral-light);
         }
 
         .ranking-container {
-            padding: 16px;
+            padding: var(--space-4);
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .ranking-header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            color: var(--neutral-white);
             text-align: center;
-            padding: 16px;
-            border-radius: 8px 8px 0 0;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-lg);
         }
 
         .ranking-header::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 10px solid #c0392b;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-top: 12px solid var(--primary-red-dark);
         }
 
         .ranking-header h2 {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: var(--text-xl);
+            font-weight: 700;
+            margin: 0;
         }
 
         .ranking-card {
-            background-color: #4a5568;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background-color: var(--neutral-white);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-6);
             overflow: hidden;
             position: relative;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            border: 2px solid transparent;
+        }
+        
+        .ranking-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-red-light);
         }
 
         .ranking-badge {
             position: absolute;
-            top: -5px;
-            left: 20px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
-            color: #333;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            top: -8px;
+            left: var(--space-5);
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, var(--secondary-gold-dark) 100%);
+            color: var(--neutral-dark);
+            padding: var(--space-3) var(--space-5);
+            border-radius: var(--radius-xl);
+            font-size: var(--text-sm);
+            font-weight: 700;
             z-index: 10;
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+            box-shadow: var(--shadow-lg);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .clinic-name {
-            background-color: #4a5568;
-            color: white;
-            padding: 12px 16px;
-            font-size: 16px;
-            font-weight: bold;
+            background-color: var(--neutral-dark);
+            color: var(--neutral-white);
+            padding: var(--space-4) var(--space-5);
+            font-size: var(--text-lg);
+            font-weight: 700;
         }
 
         .card-content {
-            background-color: white;
+            background-color: var(--neutral-white);
             padding: 0;
         }
 
@@ -94,37 +114,45 @@
 
         .price-overlay {
             position: absolute;
-            bottom: 16px;
-            left: 16px;
-            background-color: rgba(231, 76, 60, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
+            bottom: var(--space-4);
+            left: var(--space-4);
+            background-color: rgba(231, 76, 60, 0.95);
+            color: var(--neutral-white);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(4px);
+            box-shadow: var(--shadow-md);
         }
 
         .price-large {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--neutral-white);
         }
 
         .price-small {
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: var(--text-xs);
+            margin-top: var(--space-1);
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 0;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--neutral-medium);
         }
 
         .feature-item {
-            padding: 12px 8px;
+            padding: var(--space-4) var(--space-3);
             text-align: center;
-            border-right: 1px solid #e0e0e0;
-            background-color: #f8f9fa;
+            border-right: 1px solid var(--neutral-medium);
+            background-color: var(--neutral-light);
+            transition: all var(--transition-base);
+        }
+        
+        .feature-item:hover {
+            background-color: var(--primary-red-light);
+            color: var(--neutral-white);
         }
 
         .feature-item:last-child {
@@ -132,116 +160,164 @@
         }
 
         .feature-title {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
+            font-size: var(--text-xs);
+            color: var(--neutral-text-light);
+            margin-bottom: var(--space-2);
+            font-weight: 600;
         }
 
         .feature-icon {
-            width: 24px;
-            height: 24px;
-            margin: 0 auto 4px;
+            width: 32px;
+            height: 32px;
+            margin: 0 auto var(--space-2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            color: white;
+            font-size: var(--text-sm);
+            color: var(--neutral-white);
+            transition: all var(--transition-base);
         }
 
         .feature-icon.excellent {
-            background-color: #e74c3c;
+            background-color: var(--primary-red);
+            box-shadow: var(--shadow-sm);
         }
 
         .feature-icon.good {
-            background-color: #27ae60;
+            background-color: var(--success-green);
+            box-shadow: var(--shadow-sm);
         }
 
         .feature-icon.fair {
-            background-color: #f39c12;
+            background-color: var(--warning-orange);
+            box-shadow: var(--shadow-sm);
         }
 
         .feature-text {
-            font-size: 11px;
-            color: #333;
-            font-weight: bold;
+            font-size: var(--text-xs);
+            color: var(--neutral-text);
+            font-weight: 600;
         }
 
         .benefits-list {
-            padding: 16px;
+            padding: var(--space-5);
         }
 
         .benefit-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: var(--space-3);
+            font-size: var(--text-sm);
+            transition: all var(--transition-fast);
+        }
+        
+        .benefit-item:hover {
+            color: var(--primary-red);
+            transform: translateX(4px);
         }
 
         .benefit-item i {
-            color: #e74c3c;
-            margin-right: 8px;
-            font-size: 16px;
+            color: var(--primary-red);
+            margin-right: var(--space-3);
+            font-size: var(--text-base);
+            transition: all var(--transition-fast);
         }
 
         .highlight {
             background-color: #fff3cd;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-weight: bold;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            color: var(--warning-orange);
         }
 
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding: 16px;
-            background-color: #f8f9fa;
+            gap: var(--space-4);
+            padding: var(--space-5);
+            background-color: var(--neutral-light);
         }
 
         .btn-details {
-            background-color: #4a5568;
-            color: white;
+            background-color: var(--neutral-dark);
+            color: var(--neutral-white);
             border: none;
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: var(--space-4) var(--space-5);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-family: var(--font-primary);
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: var(--space-2);
+            transition: all var(--transition-base);
+            min-height: 44px;
         }
 
         .btn-official {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            color: var(--neutral-white);
             border: none;
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: var(--space-4) var(--space-5);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-family: var(--font-primary);
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            gap: var(--space-2);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            min-height: 44px;
         }
 
-        .btn-details:hover, .btn-official:hover {
-            opacity: 0.9;
+        .btn-details:hover {
+            background-color: var(--info-blue);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-official:hover {
+            background: linear-gradient(135deg, var(--primary-red-dark) 0%, #a93226 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-details:active, .btn-official:active {
+            transform: translateY(0);
         }
 
         /* 1位のクリニックを特別に目立たせる */
         .ranking-card:first-of-type {
-            border: 3px solid #ffd700;
+            border: 3px solid var(--secondary-gold);
             transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+            box-shadow: var(--shadow-lg), 0 0 20px rgba(241, 196, 15, 0.3);
+            position: relative;
+        }
+        
+        .ranking-card:first-of-type::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--secondary-gold), var(--secondary-gold-dark));
+            z-index: -1;
+            border-radius: var(--radius-lg);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .ranking-card:first-of-type .benefits-list {
-            padding: 20px 16px;
+            padding: var(--space-6) var(--space-5);
         }
 
         @media (min-width: 768px) {
@@ -294,10 +370,10 @@
             <h2>【医師監修】<span data-region="name">千葉</span>で信頼できる医療脱毛クリニック総合ランキング</h2>
         </div>
 
-        <!-- 第1位：TCB東京中央美容外科 -->
+        <!-- 第1位：湘南美容クリニック -->
         <div class="ranking-card">
             <div class="ranking-badge">🏆 第1位 最もおすすめ</div>
-            <div class="clinic-name">TCB東京中央美容外科 <span data-region="name">千葉</span>院（医療脱毛）</div>
+            <div class="clinic-name">湘南美容クリニック <span data-region="name">千葉</span>院（医療脱毛）</div>
             <div class="card-content">
                 <div class="clinic-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 375 200\"><rect width=\"375\" height=\"200\" fill=\"%23e74c3c\"/><text x=\"50%\" y=\"40%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"16\">湘南美容クリニック</text><text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"12\">医療脱毛専門</text></svg>')">
                     <div class="price-overlay">
@@ -360,10 +436,10 @@
             </div>
         </div>
 
-        <!-- 第2位：湘南美容クリニック -->
+        <!-- 第2位：TCB東京中央美容外科 -->
         <div class="ranking-card">
             <div class="ranking-badge">🥈 第2位</div>
-            <div class="clinic-name">湘南美容クリニック <span data-region="name">千葉</span>院</div>
+            <div class="clinic-name">TCB東京中央美容外科 <span data-region="name">千葉</span>院</div>
             <div class="card-content">
                 <div class="clinic-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 375 200\"><rect width=\"375\" height=\"200\" fill=\"%23333\"/><text x=\"50%\" y=\"40%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"16\">リゼクリニック</text><text x=\"50%\" y=\"60%\" text-anchor=\"middle\" dy=\".3em\" fill=\"white\" font-size=\"12\">医療脱毛</text></svg>')">
                     <div class="price-overlay">

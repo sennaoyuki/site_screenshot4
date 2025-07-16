@@ -104,13 +104,26 @@ for dir in $(ls -d ${FOLDER_PATTERN}/ 2>/dev/null | sort -V); do
         continue
     fi
     
-    echo "  -> 参照ファイルを追加: ${html_file_path}"
+    local iframe_src="${html_file_path}"
+    # 親ページのURLからregion_idパラメータを取得し、iframeのsrcに引き継ぐ
+    if [[ -n "$QUERY_STRING" ]]; then
+        if [[ "$QUERY_STRING" =~ region_id=([0-9]+) ]]; then
+            local region_id_param="region_id=${BASH_REMATCH[1]}"
+            if [[ "$iframe_src" == *"?"* ]]; then
+                iframe_src="${iframe_src}?${region_id_param}"
+            else
+                iframe_src="${iframe_src}?${region_id_param}"
+            fi
+        fi
+    fi
+    
+    echo "  -> 参照ファイルを追加: ${iframe_src}"
 
     cat <<EOT >> "$OUTPUT_FILE"
 
 <!-- Component: ${dir_name} -->
 <div class="component-wrapper">
-    <iframe src="${html_file_path}" onload="setupIframe(this)" title="${dir_name}"></iframe>
+    <iframe src="${iframe_src}" onload="setupIframe(this)" title="${dir_name}"></iframe>
 </div>
 EOT
 done
