@@ -19,11 +19,14 @@
   - Apply new color palette and spacing system
   - _Requirements: 1.1, 1.2, 2.1, 3.1_
 
-- [ ] 4. Enhance main visual component design
-  - Redesign hero section with more attractive visual elements
+- [ ] 4. Enhance main visual component with modern hero design
+  - Create eye-catching hero section with professional medical imagery
+  - Add compelling headline with benefit-focused messaging
+  - Implement trust indicators (医師監修, 実績数など)
+  - Add prominent CTA button with clear value proposition
+  - Include social proof elements (利用者数, 満足度など)
   - Improve mobile-first responsive layout
   - Update typography and color scheme consistency
-  - Optimize visual hierarchy and CTA placement
   - _Requirements: 1.1, 2.1, 3.1, 3.2_
 
 - [ ] 5. Improve search form component usability
@@ -33,11 +36,14 @@
   - Add smooth animations and transitions
   - _Requirements: 2.1, 3.2, 5.2_
 
-- [ ] 6. Redesign ranking results component
-  - Improve card design with consistent styling
-  - Enhance visual hierarchy for better readability
-  - Optimize CTA buttons with improved design
-  - Implement better responsive grid layout
+- [ ] 6. Redesign ranking results component with modern card layout
+  - Implement modern card design inspired by reference sites (tsurunavi.jp style)
+  - Add prominent ranking badges and visual indicators
+  - Create clear pricing display with highlighted offers
+  - Implement star ratings and review counts display
+  - Add "おすすめ" (recommended) badges for top clinics
+  - Optimize CTA buttons with improved design and clear call-to-actions
+  - Implement better responsive grid layout with proper spacing
   - _Requirements: 1.1, 1.3, 2.1, 3.1, 3.2_
 
 - [ ] 7. Enhance comparison table component
@@ -96,9 +102,46 @@
   - Add proper images and detailed information display
   - _Requirements: 1.1, 2.1, 3.1_
 
-- [ ] 15. Final integration and quality assurance
+- [ ] 15. Add modern UI elements inspired by reference sites
+  - Implement sticky navigation for better user experience
+  - Add breadcrumb navigation for better site structure
+  - Create floating action buttons for key actions (無料相談予約)
+  - Add progress indicators for multi-step processes
+  - Implement modal dialogs for detailed information display
+  - Add loading states and skeleton screens for better perceived performance
+  - _Requirements: 1.1, 2.1, 3.1, 5.1, 5.2_
+
+- [ ] 16. Enhance visual design with professional medical aesthetics
+  - Update color scheme to more professional medical colors (clean whites, medical blues, trust greens)
+  - Add subtle gradients and shadows for depth and modern look
+  - Implement consistent iconography throughout the site
+  - Add professional medical imagery and illustrations
+  - Create visual hierarchy with proper typography scaling
+  - Add subtle animations and micro-interactions for engagement
+  - _Requirements: 1.1, 1.2, 1.3, 3.1, 5.2_
+
+- [ ] 17. Implement advanced filtering and sorting features
+  - Add advanced filter sidebar with multiple criteria
+  - Implement sort functionality (価格順, 評価順, 人気順)
+  - Create filter tags that show active filters
+  - Add "条件をクリア" (clear filters) functionality
+  - Implement real-time search results updating
+  - Add filter result count display
+  - _Requirements: 2.1, 3.1, 3.2_
+
+- [ ] 18. Add trust and credibility elements
+  - Implement review and rating system display
+  - Add "医師監修" badges and certifications
+  - Create testimonial sections with user reviews
+  - Add clinic verification badges
+  - Implement "よくある質問" (FAQ) section
+  - Add security and privacy assurance elements
+  - _Requirements: 1.1, 3.1, 3.2_
+
+- [ ] 19. Final integration and quality assurance
   - Verify all components work together seamlessly
   - Test iframe communication functionality
   - Confirm no JavaScript errors in console
   - Validate HTML and CSS for standards compliance
+  - Test all new features across different devices and browsers
   - _Requirements: 4.1, 4.2, 4.3, 6.1, 6.2, 6.3_
